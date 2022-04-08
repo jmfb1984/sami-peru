@@ -242,6 +242,7 @@
             :enablehover="false"
             :columns="columnsGlobal"
             :source="dataAdapterGlobal"
+            :columngroups="columnsGroupGlobal"
             :columnsresize="true"
             :sortable="true"
             :sortmode="'many'"
@@ -351,6 +352,10 @@ let sumaPosiEg63AnteGlobal = 0
 let sumaTotaLineGlobal = 0
 let sumaVentReceGlobal = 0
 let sumaTotaFaltGlobal = 0
+let sumaTotaPublGlobal = 0
+let sumaTotaFactGlobal = 0
+let sumaTotaReceGlobal = 0
+let sumaTotaUnidGlobal = 0
 
 export default {
   components: {
@@ -380,6 +385,38 @@ export default {
       seleccionCampana: [],
       dataZona: [],
       seleccionZona: [],
+      columnsGroupGlobal: [
+        {
+          text: 'Venta Valor Catálogo',
+          align: 'center',
+          name: 'vent_cata',
+        },
+        {
+          text: 'Venta Facturada',
+          align: 'center',
+          name: 'vent_fact',
+        },
+        {
+          text: 'Faltante',
+          align: 'center',
+          name: 'falt',
+        },
+        {
+          text: 'Venta Linea',
+          align: 'center',
+          name: 'vent_line',
+        },
+        {
+          text: 'Venta Recepcionada',
+          align: 'center',
+          name: 'vent_rece',
+        },
+        {
+          text: 'Unidades',
+          align: 'center',
+          name: 'unid',
+        },
+      ],
     }
   },
   beforeCreate() {
@@ -513,134 +550,45 @@ export default {
     this.sourceGlobal = {
       localdata: [],
       datafields: [
-        {
-          name: 'codi_area',
-          type: 'string',
-        },
-        {
-          name: 'codi_zona',
-          type: 'string',
-        },
-        {
-          name: 'codi_sect',
-          type: 'string',
-        },
-        {
-          name: 'acti_inic',
-          type: 'number',
-        },
-        {
-          name: 'acti_fina',
-          type: 'number',
-        },
-        {
-          name: 'tota_ingr',
-          type: 'number',
-        },
-        {
-          name: 'tota_rein',
-          type: 'number',
-        },
-        {
-          name: 'tota_egre',
-          type: 'number',
-        },
-        {
-          name: 'posi_egre',
-          type: 'number',
-        },
-        {
-          name: 'nume_pedi',
-          type: 'number',
-        },
-        {
-          name: 'pedi_rete',
-          type: 'number',
-        },
-        {
-          name: 'tota_line',
-          type: 'number',
-        },
-        {
-          name: 'tota_fact',
-          type: 'number',
-        },
-        {
-          name: 'tota_falt',
-          type: 'number',
-        },
-        {
-          name: 'tota_pedi',
-          type: 'number',
-        },
-        {
-          name: 'posi_rein',
-          type: 'number',
-        },
-        {
-          name: 'tota_capi',
-          type: 'number',
-        },
-        {
-          name: 'posi_eg21',
-          type: 'number',
-        },
-        {
-          name: 'posi_eg42',
-          type: 'number',
-        },
-        {
-          name: 'porc_acti',
-          type: 'number',
-        },
-        {
-          name: 'tota_reco',
-          type: 'number',
-        },
-        {
-          name: 'rete_pe21',
-          type: 'number',
-        },
-        {
-          name: 'rete_pe42',
-          type: 'number',
-        },
-        {
-          name: 'rete_pe63',
-          type: 'number',
-        },
-        {
-          name: 'porc_re21',
-          type: 'number',
-        },
-        {
-          name: 'porc_re42',
-          type: 'number',
-        },
-        {
-          name: 'porc_re63',
-          type: 'number',
-        },
-        {
-          name: 'posi_eg21_ante',
-          type: 'number',
-        },
-        {
-          name: 'posi_eg42_ante',
-          type: 'number',
-        },
-        {
-          name: 'posi_egre_ante',
-          type: 'number',
-        },
-        {
-          name: 'vent_rece',
-          type: 'number',
-        },
-        {
-          name: 'porc_falt',
-          type: 'number',
-        },
+        { name: 'codi_area', type: 'string' },
+        { name: 'codi_zona', type: 'string' },
+        { name: 'codi_sect', type: 'string' },
+        { name: 'acti_inic', type: 'number' },
+        { name: 'acti_fina', type: 'number' },
+        { name: 'tota_ingr', type: 'number' },
+        { name: 'tota_rein', type: 'number' },
+        { name: 'tota_egre', type: 'number' },
+        { name: 'posi_egre', type: 'number' },
+        { name: 'nume_pedi', type: 'number' },
+        { name: 'pedi_rete', type: 'number' },
+        { name: 'tota_line', type: 'number' },
+        { name: 'tota_fact', type: 'number' },
+        { name: 'tota_falt', type: 'number' },
+        { name: 'tota_pedi', type: 'number' },
+        { name: 'posi_rein', type: 'number' },
+        { name: 'tota_capi', type: 'number' },
+        { name: 'posi_eg21', type: 'number' },
+        { name: 'posi_eg42', type: 'number' },
+        { name: 'porc_acti', type: 'number' },
+        { name: 'tota_reco', type: 'number' },
+        { name: 'rete_pe21', type: 'number' },
+        { name: 'rete_pe42', type: 'number' },
+        { name: 'rete_pe63', type: 'number' },
+        { name: 'porc_re21', type: 'number' },
+        { name: 'porc_re42', type: 'number' },
+        { name: 'porc_re63', type: 'number' },
+        { name: 'posi_eg21_ante', type: 'number' },
+        { name: 'posi_eg42_ante', type: 'number' },
+        { name: 'posi_egre_ante', type: 'number' },
+        { name: 'vent_rece', type: 'number' },
+        { name: 'porc_falt', type: 'number' },
+        { name: 'tota_unid', type: 'number' },
+        { name: 'tota_uppp', type: 'number' },
+        { name: 'mont_unid', type: 'number' },
+        { name: 'pppp_fact', type: 'number' },
+        { name: 'vent_publ', type: 'number' },
+        { name: 'pppp_publ', type: 'number' },
+        { name: 'pppp_rece', type: 'number' },
       ],
       datatype: 'array',
     }
@@ -1265,12 +1213,13 @@ export default {
           ],
         },
         {
-          text: 'Vta. Linea',
-          dataField: 'tota_line',
-          width: `${totaLineGlob}%`,
+          text: 'Vta. Publ.',
+          dataField: 'vent_publ',
+          width: `${totaFactGlob}%`,
           align: 'center',
           cellsalign: 'center',
           cellsformat: 'D2',
+          columngroup: 'vent_cata',
           aggregates: [
             {
               // eslint-disable-next-line
@@ -1283,12 +1232,306 @@ export default {
           ],
         },
         {
+          text: 'PPP Publ.',
+          dataField: 'pppp_publ',
+          width: `${totaPediGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_cata',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                if (record['uid'] === 0) {
+                  sumaNumePediGlobal = 0
+                  sumaTotaPublGlobal = 0
+                }
+                // eslint-disable-next-line
+                sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
+                // eslint-disable-next-line
+                sumaTotaPublGlobal = sumaTotaPublGlobal + record['vent_publ']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaPublGlobal) > 0) {
+                  // eslint-disable-next-line
+                  sumaGlobal = parseFloat(sumaTotaPublGlobal) / parseInt(sumaNumePediGlobal)
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
           text: 'Vta. Fact.',
           dataField: 'tota_fact',
           width: `${totaFactGlob}%`,
           align: 'center',
           cellsalign: 'center',
           cellsformat: 'D2',
+          columngroup: 'vent_fact',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue) {
+                // eslint-disable-next-line
+                aggregatedValue = aggregatedValue + currentValue
+                return aggregatedValue
+              },
+            },
+          ],
+        },
+        {
+          text: 'PPP Fact.',
+          dataField: 'pppp_fact',
+          width: `${totaPediGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_fact',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                if (record['uid'] === 0) {
+                  sumaNumePediGlobal = 0
+                  sumaTotaFactGlobal = 0
+                }
+                // eslint-disable-next-line
+                sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
+                // eslint-disable-next-line
+                sumaTotaFactGlobal = sumaTotaFactGlobal + record['tota_fact']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaFactGlobal) > 0) {
+                  // eslint-disable-next-line
+                  sumaGlobal = parseFloat(sumaTotaFactGlobal) / parseInt(sumaNumePediGlobal)
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
+          text: 'Faltante',
+          dataField: 'tota_falt',
+          width: `${totaFaltGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'falt',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T' : function (aggregatedValue, currentValue) {
+                // eslint-disable-next-line
+                aggregatedValue = aggregatedValue + currentValue
+                return aggregatedValue
+              },
+            },
+          ],
+        },
+        {
+          text: '% Faltante',
+          dataField: 'porc_falt',
+          width: `${porcFaltGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'falt',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                if (record['uid'] === 0) {
+                  sumaTotaFaltGlobal = 0
+                  sumaVentReceGlobal = 0
+                }
+                // eslint-disable-next-line
+                sumaTotaFaltGlobal = sumaTotaFaltGlobal + record['tota_falt']
+                // eslint-disable-next-line
+                sumaVentReceGlobal = sumaVentReceGlobal + record['vent_rece']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                if (parseInt(sumaTotaFaltGlobal) > 0 && parseInt(sumaVentReceGlobal) > 0) {
+                  // eslint-disable-next-line
+                  sumaGlobal = 100 * (parseFloat(sumaTotaFaltGlobal) / parseFloat(sumaVentReceGlobal))
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
+          text: 'Vta. Linea',
+          dataField: 'tota_line',
+          width: `${totaLineGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_line',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue) {
+                // eslint-disable-next-line
+                aggregatedValue = aggregatedValue + currentValue
+                return aggregatedValue
+              },
+            },
+          ],
+        },
+        {
+          text: 'PPP Linea',
+          dataField: 'tota_pedi',
+          width: `${totaPediGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_line',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                if (record['uid'] === 0) {
+                  sumaNumePediGlobal = 0
+                  sumaTotaLineGlobal = 0
+                }
+                // eslint-disable-next-line
+                sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
+                // eslint-disable-next-line
+                sumaTotaLineGlobal = sumaTotaLineGlobal + record['tota_line']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaLineGlobal) > 0) {
+                  // eslint-disable-next-line
+                  sumaGlobal = parseFloat(sumaTotaLineGlobal) / parseInt(sumaNumePediGlobal)
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
+          text: 'Vta. Rece.',
+          dataField: 'vent_rece',
+          width: `${ventReceGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_rece',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T' : function (aggregatedValue, currentValue) {
+                // eslint-disable-next-line
+                aggregatedValue = aggregatedValue + currentValue
+                return aggregatedValue
+              },
+            },
+          ],
+        },
+        {
+          text: 'PPP Rece.',
+          dataField: 'pppp_rece',
+          width: `${totaPediGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'vent_rece',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                if (record['uid'] === 0) {
+                  sumaNumePediGlobal = 0
+                  sumaTotaReceGlobal = 0
+                }
+                // eslint-disable-next-line
+                sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
+                // eslint-disable-next-line
+                sumaTotaReceGlobal = sumaTotaReceGlobal + record['vent_rece']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaReceGlobal) > 0) {
+                  // eslint-disable-next-line
+                  sumaGlobal = parseFloat(sumaTotaReceGlobal) / parseInt(sumaNumePediGlobal)
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
+          text: 'Unid',
+          dataField: 'tota_unid',
+          width: `${totaLineGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'N',
+          columngroup: 'unid',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              'T': function (aggregatedValue, currentValue) {
+                // eslint-disable-next-line
+                aggregatedValue = aggregatedValue + currentValue
+                return aggregatedValue
+              },
+            },
+          ],
+        },
+        {
+          text: 'UPP',
+          dataField: 'tota_uppp',
+          width: `${totaLineGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'D2',
+          columngroup: 'unid',
+          aggregates: [
+            {
+              // eslint-disable-next-line
+              T: function (aggregatedValue, currentValue, column, record) {
+                // eslint-disable-next-line
+                  if (record['uid'] === 0) {
+                  sumaNumePediGlobal = 0
+                  sumaTotaUnidGlobal = 0
+                }
+                // eslint-disable-next-line
+                  sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
+                // eslint-disable-next-line
+                  sumaTotaUnidGlobal = sumaTotaUnidGlobal + record['tota_unid']
+                let sumaGlobal = 0
+                // eslint-disable-next-line
+                  if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaUnidGlobal) > 0) {
+                  // eslint-disable-next-line
+                    sumaGlobal = parseInt(sumaTotaUnidGlobal) / parseInt(sumaNumePediGlobal)
+                }
+                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
+                return sumaGlobal
+              },
+            },
+          ],
+        },
+        {
+          text: 'S/. Unid',
+          dataField: 'mont_unid',
+          width: `${totaLineGlob}%`,
+          align: 'center',
+          cellsalign: 'center',
+          cellsformat: 'N',
+          columngroup: 'unid',
           aggregates: [
             {
               // eslint-disable-next-line
@@ -1515,106 +1758,6 @@ export default {
                 if (parseInt(sumaRetePe63Global) > 0 && parseInt(sumaPosiEg63AnteGlobal) > 0) {
                   // eslint-disable-next-line
                   sumaGlobal = 100 * (parseInt(sumaRetePe63Global) / parseInt(sumaPosiEg63AnteGlobal))
-                }
-                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
-                return sumaGlobal
-              },
-            },
-          ],
-        },
-        {
-          text: 'PPP Fact.',
-          dataField: 'tota_pedi',
-          width: `${totaPediGlob}%`,
-          align: 'center',
-          cellsalign: 'center',
-          cellsformat: 'D2',
-          aggregates: [
-            {
-              // eslint-disable-next-line
-              'T': function (aggregatedValue, currentValue, column, record) {
-                // eslint-disable-next-line
-                if (record['uid'] === 0) {
-                  sumaNumePediGlobal = 0
-                  sumaPosiEg63AnteGlobal = 0
-                }
-                // eslint-disable-next-line
-                sumaNumePediGlobal = sumaNumePediGlobal + record['nume_pedi']
-                // eslint-disable-next-line
-                sumaTotaLineGlobal = sumaTotaLineGlobal + record['tota_line']
-                let sumaGlobal = 0
-                // eslint-disable-next-line
-                if (parseInt(sumaNumePediGlobal) > 0 && parseInt(sumaTotaLineGlobal) > 0) {
-                  // eslint-disable-next-line
-                  sumaGlobal = 100 * (parseInt(sumaTotaLineGlobal) / parseInt(sumaNumePediGlobal))
-                }
-                sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
-                return sumaGlobal
-              },
-            },
-          ],
-        },
-        {
-          text: 'Faltante',
-          dataField: 'tota_falt',
-          width: `${totaFaltGlob}%`,
-          align: 'center',
-          cellsalign: 'center',
-          cellsformat: 'D2',
-          aggregates: [
-            {
-              // eslint-disable-next-line
-              'T' : function (aggregatedValue, currentValue) {
-                // eslint-disable-next-line
-                aggregatedValue = aggregatedValue + currentValue
-                return aggregatedValue
-              },
-            },
-          ],
-        },
-        {
-          text: 'Vta. Rece.',
-          dataField: 'vent_rece',
-          width: `${ventReceGlob}%`,
-          align: 'center',
-          cellsalign: 'center',
-          cellsformat: 'D2',
-          aggregates: [
-            {
-              // eslint-disable-next-line
-              'T' : function (aggregatedValue, currentValue) {
-                // eslint-disable-next-line
-                aggregatedValue = aggregatedValue + currentValue
-                return aggregatedValue
-              },
-            },
-          ],
-        },
-        {
-          text: '% Faltante',
-          dataField: 'porc_falt',
-          width: `${porcFaltGlob}%`,
-          align: 'center',
-          cellsalign: 'center',
-          cellsformat: 'D2',
-          aggregates: [
-            {
-              // eslint-disable-next-line
-              'T': function (aggregatedValue, currentValue, column, record) {
-                // eslint-disable-next-line
-                if (record['uid'] === 0) {
-                  sumaTotaFaltGlobal = 0
-                  sumaVentReceGlobal = 0
-                }
-                // eslint-disable-next-line
-                sumaTotaFaltGlobal = sumaTotaFaltGlobal + record['tota_falt']
-                // eslint-disable-next-line
-                sumaVentReceGlobal = sumaVentReceGlobal + record['vent_rece']
-                let sumaGlobal = 0
-                // eslint-disable-next-line
-                if (parseInt(sumaTotaFaltGlobal) > 0 && parseInt(sumaVentReceGlobal) > 0) {
-                  // eslint-disable-next-line
-                  sumaGlobal = 100 * (parseFloat(sumaTotaFaltGlobal) / parseFloat(sumaVentReceGlobal))
                 }
                 sumaGlobal = parseFloat(sumaGlobal).toFixed(2)
                 return sumaGlobal

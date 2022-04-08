@@ -83,8 +83,8 @@
               <span class="d-flex mt-50">Región</span>
             </b-col>
             <b-col
-              xl="4"
-              lg="4"
+              xl="2"
+              lg="2"
               md="6"
               sm="12"
               xs="12"
@@ -114,11 +114,45 @@
               xs="12"
               class="mb-1 mb-lg-0"
             >
+              <span class="d-flex mt-50">Corte</span>
+            </b-col>
+            <b-col
+              xl="2"
+              lg="2"
+              md="6"
+              sm="12"
+              xs="12"
+              class="mb-1 mb-lg-0"
+            >
+              <v-select
+                ref="refCorte"
+                v-model="seleccionCorte"
+                :options="dataCorte"
+              >
+                <span
+                  slot="no-options"
+                  @click="$refs.refCorte.open=false"
+                >
+                  Corte no existe.
+                </span>
+              </v-select>
+            </b-col>
+            <b-col
+              class="d-block d-lg-none"
+            />
+            <b-col
+              xl="2"
+              lg="2"
+              md="3"
+              sm="12"
+              xs="12"
+              class="mb-1 mb-lg-0"
+            >
               <span class="d-flex mt-50">Estado</span>
             </b-col>
             <b-col
-              xl="4"
-              lg="4"
+              xl="2"
+              lg="2"
               md="6"
               sm="12"
               xs="12"
@@ -205,7 +239,9 @@ export default {
       userData: JSON.parse(localStorage.getItem('userData')),
       localization: store.state.app.localizationobj,
       dataArea: [],
-      seleccionArea: [],
+      seleccionArea: '',
+      dataCorte: [],
+      seleccionCorte: '',
       dataEstado: [],
       seleccionEstado: [],
       columnsGlobal: [],
@@ -405,9 +441,22 @@ export default {
       { nomb_esta: 'Consecutivas' },
       { nomb_esta: 'Incorporacion' },
     ]
+    const itemCorte = [
+      { codi_cort: '1' },
+      { codi_cort: '2' },
+      { codi_cort: '3' },
+      { codi_cort: '4' },
+      { codi_cort: '5' },
+      { codi_cort: '6' },
+      { codi_cort: '7' },
+      { codi_cort: '8' },
+      { codi_cort: '9' },
+      { codi_cort: '10' },
+      { codi_cort: '11' },
+    ]
     itemArea.forEach(element => this.dataArea.push(element.codi_area))
     itemEstado.forEach(element => this.dataEstado.push(element.nomb_esta))
-    this.seleccionArea = itemArea[0].codi_area
+    itemCorte.forEach(element => this.dataCorte.push(element.codi_cort))
     this.seleccionEstado = itemEstado[0].nomb_esta
   },
   methods: {
@@ -749,7 +798,7 @@ export default {
         color: $themeColors.primary,
       })
       this.repo_come_esta_ases_limp()
-      if (this.seleccionArea === null || this.seleccionArea.length === 0) {
+      if (this.seleccionArea === '' && this.seleccionCorte === '') {
         setTimeout(() => {
           this.$vs.loading.close()
         }, 500)
@@ -759,7 +808,7 @@ export default {
             title: 'Notificación',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
-            text: 'Campo región es obligatorio.',
+            text: 'Campo región o corte es obligatorio.',
           },
         }, {
           position: 'bottom-right',
@@ -797,6 +846,7 @@ export default {
               codi_acce: this.userData.codigoAcceso,
               codi_camp: campActu,
               codi_area: this.seleccionArea,
+              codi_cort: this.seleccionCorte,
               codi_esta: this.seleccionEstado,
             },
           })

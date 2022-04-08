@@ -5,10 +5,10 @@ export default {
   state: {
     windowWidth: 0,
     shallShowOverlay: false,
-    webService: 'https://servicioweb2per.azzorti.co/hmvc/index.php',
-    webTemporal: 'https://servicioweb2per.azzorti.co/temporales/',
-    // webService: 'https://servicioweb.dupree.pe/hmvc/index.php',
-    // webTemporal: 'https://servicioweb.dupree.pe/temporales/',
+    // webService: 'https://servicioweb2per.azzorti.co/hmvc/index.php',
+    // webTemporal: 'https://servicioweb2per.azzorti.co/temporales/',
+    webService: 'https://servicioweb.dupree.pe/hmvc/index.php',
+    webTemporal: 'https://servicioweb.dupree.pe/temporales/',
     timeout: 300, // Segundos
     dataUsuario: {
       nombre: '',

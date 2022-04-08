@@ -1722,7 +1722,7 @@ export default {
             nuev_vr: this.nuevaVr,
             nuev_rada: dataNuevaRadar.imgURI,
             nuev_barr: dataNuevaBar.imgURI,
-            capi: this.nueva,
+            capi: this.capitalizacion,
             capi_acum: this.capitalizacionAcumulado,
             capi_camp: this.capitalizacionCampaña,
             capi_vr: this.capitalizacionVr,

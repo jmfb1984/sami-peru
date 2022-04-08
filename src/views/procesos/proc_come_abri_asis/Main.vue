@@ -5,7 +5,7 @@
         variant="primary"
         block
         class="mb-1"
-        @click="proc_come_abri_asis_regi()"
+        @click="proc_come_abri_asis_conf()"
       >
         <feather-icon
           icon="SaveIcon"
@@ -31,7 +31,7 @@
       <b-button
         variant="primary"
         class="ml-1"
-        @click="proc_come_abri_asis_regi()"
+        @click="proc_come_abri_asis_conf()"
       >
         <feather-icon
           icon="SaveIcon"
@@ -256,7 +256,7 @@ export default {
     const userData = JSON.parse(localStorage.getItem('userData'))
     const itemZona = JSON.parse(userData.zona)
     let itemCampana = JSON.parse(localStorage.getItem('mainCampana'))
-    itemCampana = itemCampana.camp_sigu.slice(0, 3)
+    itemCampana = itemCampana.camp_sigu.slice(1, 4)
     itemCampana.forEach(element => this.dataCampana.push(element.codi_camp))
     itemZona.forEach(element => this.dataZona.push(element.codi_zona))
     this.seleccionCampana = itemCampana[0].codi_camp
@@ -346,6 +346,27 @@ export default {
     },
     proc_come_abri_asis_fech() {
       this.fecha = ''
+    },
+    proc_come_abri_asis_conf() {
+      this.$swal({
+        title: 'Confirmación',
+        text: 'Esta seguro(a) de abrir su asistencia?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger',
+        },
+        showClass: {
+          popup: 'animate__animated animate__bounceIn',
+        },
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.proc_come_abri_asis_regi()
+        }
+      })
     },
     async proc_come_abri_asis_regi() {
       this.$vs.loading({
